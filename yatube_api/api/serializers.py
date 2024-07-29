@@ -10,9 +10,7 @@ class GroupSerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    group = serializers.PrimaryKeyRelatedField(
-        queryset=Group.objects.all()
-    )
+    group = serializers.PrimaryKeyRelatedField(queryset=Group.objects.all())
     author = serializers.SerializerMethodField()
 
     class Meta:
