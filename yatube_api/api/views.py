@@ -1,7 +1,7 @@
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
-from .serializers import CommentSerializer ,GroupSerializer, PostSerializer
+from .serializers import CommentSerializer, GroupSerializer, PostSerializer
 from posts.models import Comment, Group, Post
 
 

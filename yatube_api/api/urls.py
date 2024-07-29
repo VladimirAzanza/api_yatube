@@ -12,9 +12,10 @@ router.register('posts', PostViewSet, basename='post')
 comment_router = routers.NestedSimpleRouter(
     router,
     r'posts',
-    lookup='post')
+    lookup='post'
+)
 comment_router.register(r'comments', CommentViewSet, basename='comment-post')
-router.register('groups', GroupViewSet)
+router.register('groups', GroupViewSet, basename='group')
 
 urlpatterns = [
     path('api-token-auth/', views.obtain_auth_token),
