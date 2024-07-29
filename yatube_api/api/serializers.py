@@ -1,9 +1,17 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework import serializers
 
-from posts.models import Post
+from posts.models import Group, Post
 
 
-class PostSerializer(ModelSerializer):
+class GroupSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Group
+        fields = '__all__'
+
+
+class PostSerializer(serializers.ModelSerializer):
+    group = GroupSerializer()
+
     class Meta:
         model = Post
         fields = '__all__'

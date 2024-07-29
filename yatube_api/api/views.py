@@ -1,8 +1,8 @@
 from django.shortcuts import render
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
-from .serializers import PostSerializer
-from posts.models import Post
+from .serializers import GroupSerializer, PostSerializer
+from posts.models import Group, Post
 
 
 class PostViewSet(ModelViewSet):
@@ -14,3 +14,8 @@ class PostViewSet(ModelViewSet):
 
     def perform_update(self, serializer):
         serializer.save(author=self.request.user)
+
+
+class GroupViewSet(ReadOnlyModelViewSet):
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
