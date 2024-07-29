@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
 
@@ -31,3 +32,9 @@ class GroupViewSet(ReadOnlyModelViewSet):
 class CommentViewSet(ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(
+            author=self.request.user,
+            post=get_object_or_404(Post, id=self.kwargs.get('post_pk'))
+        )

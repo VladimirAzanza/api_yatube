@@ -9,13 +9,13 @@ app_name = 'api'
 
 router = DefaultRouter()
 router.register('posts', PostViewSet, basename='post')
+router.register('groups', GroupViewSet, basename='group')
 comment_router = routers.NestedSimpleRouter(
     router,
     r'posts',
     lookup='post'
 )
 comment_router.register(r'comments', CommentViewSet, basename='comment-post')
-router.register('groups', GroupViewSet, basename='group')
 
 urlpatterns = [
     path('api-token-auth/', views.obtain_auth_token),
