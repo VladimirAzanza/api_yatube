@@ -10,10 +10,6 @@ class PostViewSet(ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
-    def retrieve(self, request, *args, **kwargs):
-        print("Request kwargs:", kwargs)  # Imprime los kwargs
-        return super().retrieve(request, *args, **kwargs)
-
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
@@ -38,7 +34,6 @@ class CommentViewSet(ModelViewSet):
 
     def get_queryset(self):
         return Comment.objects.filter(post_id=self.kwargs.get('post_id'))
-
 
     def perform_create(self, serializer):
         serializer.save(
