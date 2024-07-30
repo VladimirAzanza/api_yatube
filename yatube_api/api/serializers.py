@@ -31,7 +31,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = '__all__'
-        read_only_fields = ('author',)
+        read_only_fields = ('author', 'pub_date')
 
     def get_author(self, obj):
         return obj.author.username
