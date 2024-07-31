@@ -24,7 +24,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class PostSerializer(serializers.ModelSerializer):
     group = serializers.PrimaryKeyRelatedField(
-        queryset=Group.objects.all()
+        queryset=Group.objects.all(), required=False
     )
     author = serializers.SerializerMethodField()
 
