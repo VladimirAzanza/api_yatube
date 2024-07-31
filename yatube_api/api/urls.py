@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.authtoken import views
 from rest_framework.routers import DefaultRouter
-from rest_framework_nested import routers
+# from rest_framework_nested import routers
 
 from api.views import CommentViewSet, GroupViewSet, PostViewSet
 
