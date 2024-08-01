@@ -1,9 +1,6 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.viewsets import (
-    ModelViewSet as StdModelViewSet,
-    ReadOnlyModelViewSet
-)
+from rest_framework.viewsets import (ModelViewSet, ReadOnlyModelViewSet)
 
 from .serializers import CommentSerializer, GroupSerializer, PostSerializer
 from posts.models import Comment, Group, Post
@@ -14,7 +11,7 @@ class GroupViewSet(ReadOnlyModelViewSet):
     serializer_class = GroupSerializer
 
 
-class ModelViewSet(StdModelViewSet):
+class OnlyAuthorMixinViewSet(ModelViewSet):
     def perform_update(self, serializer):
         if serializer.instance.author != self.request.user:
             raise PermissionDenied('Изменение чужого контента запрещено!')
@@ -26,7 +23,7 @@ class ModelViewSet(StdModelViewSet):
         super().perform_destroy(instance)
 
 
-class PostViewSet(ModelViewSet):
+class PostViewSet(OnlyAuthorMixinViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
@@ -34,7 +31,7 @@ class PostViewSet(ModelViewSet):
         serializer.save(author=self.request.user)
 
 
-class CommentViewSet(ModelViewSet):
+class CommentViewSet(OnlyAuthorMixinViewSet):
     serializer_class = CommentSerializer
 
     def get_queryset(self):
