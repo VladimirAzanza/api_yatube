@@ -9,23 +9,23 @@ class GroupSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-class GetAuthorInfoSerializer(serializers.ModelSerializer):
-    author = serializers.SerializerMethodField()
-
-    def get_author(self, obj):
-        return obj.author.username
-
-
-class CommentSerializer(GetAuthorInfoSerializer):
-    post = serializers.PrimaryKeyRelatedField(read_only=True)
+class CommentSerializer(serializers.ModelSerializer):
+    author = serializers.SlugRelatedField(
+        read_only=True, slug_field='username'
+    )
+    post = serializers.PrimaryKeyRelatedField(
+        read_only=True
+    )
 
     class Meta:
         model = Comment
         fields = '__all__'
-        read_only_fields = ('author', 'post')
 
 
-class PostSerializer(GetAuthorInfoSerializer):
+class PostSerializer(serializers.ModelSerializer):
+    author = serializers.SlugRelatedField(
+        read_only=True, slug_field='username'
+    )
     group = serializers.PrimaryKeyRelatedField(
         queryset=Group.objects.all(), required=False
     )
@@ -33,4 +33,4 @@ class PostSerializer(GetAuthorInfoSerializer):
     class Meta:
         model = Post
         fields = '__all__'
-        read_only_fields = ('author', 'pub_date')
+        read_only_fields = ('pub_date',)
